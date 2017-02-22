@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="domain/layout" layout:decorator="LayoutDefault">
+		
+		<div class="container" layout:fragment="contenu" style="padding-top: 70px;">
+		
+				<div class="starter-template col-sm-6">
+				<form action="/CompareEvol" method="POST">
+					<table class="table table-responsive">
+					  <thead class="thead-default">
+						<tr>
+						  <th class="col-sm-10">Ligne d'evolutions</th>
+						  <th class="col-sm-1"></th>
+						  <th class="col-sm-1"></th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr th:each="evol : ${evols}">
+							<th scope="row" th:text="${evol}">Evol1</th>
+							<td> <a href="#" class="glyphicon glyphicon-search test" th:id="${evol}" /> </td>
+							<td>
+								<input type="checkbox" th:name="${evol}" />
+							</td>
+						</tr>
+					  </tbody>
+					</table>
+					<button type="submit" class="btn btn-primary btn-lg btn-block">Generate Compare</button>
+				</form>
+			</div>
+	
+			
+			<div class="col-sm-6">
+				<h3 id="titlebranche">#####</h3>
+				<ul id="infoevol">
+				</ul>
+			</div>
+	</div><!-- /.container -->
+</html>

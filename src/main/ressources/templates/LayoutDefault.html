@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="domain/layout">
+		<head>
+		    <meta charset="utf-8" />
+		    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		    <meta name="viewport" content="width=device-width, initial-scale=1" />
+		    <meta name="description" content="" />
+		    <meta name="author" content="" />
+		    <link rel="icon" href="bootstrap/favicon.ico"></link>
+		
+		    <title>Starter Template for Bootstrap</title>
+		
+		    <!-- Bootstrap core CSS -->
+		    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"></link>
+			<link href="bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen"></link>
+		
+		
+		    <!-- Custom styles for this template -->
+		    <link href="css/starter-template.css" rel="stylesheet"></link>
+		
+		    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+		    <!--[if lt IE 9]><script src="bootstrap/docs/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+		    <script src="bootstrap/docs/assets/js/ie-responsive-file-warning.js"></script>
+		
+		    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		    <!--[if lt IE 9]>
+		      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		    <![endif]-->
+		</head>
+		
+		<body>
+	
+		     <nav class="navbar navbar-inverse navbar-fixed-top">
+		        <div class="container-fluid">
+					<a class="navbar-brand" href="#">Repository SVN : </a>
+						<form class="navbar-form navbar-left inline-form">
+							<div class="icon-addon addon-sm">
+								<select class="form-control input-sm">
+									<option>Osiris_Wrk</option>
+									<option>IODA_Wrk</option>
+									<option>...</option>
+								</select>
+								<i class="icon icon-search"></i>
+							</div>
+						</form>
+						<form class="navbar-form navbar-right inline-form">
+							<div class="form-group">
+							<input type="search" class="input-sm form-control" placeholder="Recherche" />
+							<select class="form-control input-sm">
+								<option>Evolution</option>
+								<option>Application</option>
+								<option>Branche</option>
+							</select>
+							<button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open" /> Chercher</button>
+							</div>
+						</form>
+				</div>
+			</nav>			
+		
+			<div class="container" layout:fragment="contenu">
+				<h2>Contenu</h2>
+			</div>
+		    <!-- Bootstrap core JavaScript
+		    ================================================== -->
+		    <!-- Placed at the end of the document so the pages load faster -->
+		    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+			<script type="text/javascript" src="bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+			<script type="text/javascript" src="bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+		    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		    <script src="bootstrap/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
+			
+			<script type="text/javascript">
+		    $('.form_date').datetimepicker({
+		        //language:  'fr',
+		        weekStart: 1,
+		        todayBtn:  1,
+				autoclose: 1,
+				todayHighlight: 1,
+				startView: 2,
+				minView:2,
+				forceParse: 0,
+		        showMeridian: 0
+		    });
+		</script>
+		
+			<script>
+			$( ".test" ).click(function() {
+				nameEvol = $(this).attr('id');
+			  	$.ajax({
+					method: "GET",
+					url: "getAppByEvol",
+					data: {name: nameEvol}
+			    }).then(function(data) {
+			    	$('#titlebranche').text(nameEvol);
+			    	$("#infoevol").children().remove();
+			    	$("#infoevol").append('<a class="list-group-item active">Application</a>');
+			    	jQuery.each(data, function(i, index) {
+			    		name=index.name.replace("/", "");
+						$("#infoevol").append('<a class="list-group-item application" id="'+name+'">'+index.name+'</a>');
+					});
+			    });
+			});
+
+			$('#infoevol').on('click','.application', function(){
+				appli= $(this).attr('id');
+				evol = $("#titlebranche").text();
+				classAppli = $('#'+appli);
+				if (classAppli.children().length>0) 
+				{
+					classAppli.children().remove();
+				}
+				else
+				{
+					$.ajax({
+						method: "GET",
+						url: "getBrancheByAppli",
+						data: {nameEvol: evol,
+								nameAppli : "/"+appli }
+					}).then(function(data) {
+						$('#'+appli).children().remove();
+						jQuery.each(data, function(i, index) {
+							classAppli.append('<a class="list-group-item"> <b>Nom :</b> '+index.name+'<br /><b>Version :</b> '+index.version+'</a>');
+						});
+					});
+				}
+				
+			});
+			</script>
+			
+		</body>
+	</html>
