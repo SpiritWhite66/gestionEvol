@@ -14,7 +14,6 @@
 		    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"></link>
 			<link href="bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen"></link>
 		
-		
 		    <!-- Custom styles for this template -->
 		    <link href="css/starter-template.css" rel="stylesheet"></link>
 		
@@ -57,10 +56,40 @@
 						</form>
 				</div>
 			</nav>			
-		
-			<div class="container" layout:fragment="contenu">
-				<h2>Contenu</h2>
+			
+			<div class="row">
+			  <div class="col-sm-2 menu">
+			    <div class="sidebar-nav">
+			      <div class="navbar navbar-default" role="navigation">
+			        <div class="navbar-collapse collapse sidebar-navbar-collapse">
+			          <ul class="nav navbar-nav">
+			            <li class="active"><a href="/">Affichage classique</a></li>
+			            <li><a href="/ListEvol">Tri par ligne d'évolution</a></li>
+			            <li><a href="/ListError">Erreur</a></li>
+			            <li class="dropdown">
+			              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+			              <ul class="dropdown-menu">
+			                <li><a href="#">Action</a></li>
+			                <li><a href="#">Another action</a></li>
+			                <li><a href="#">Something else here</a></li>
+			                <li class="divider"></li>
+			                <li class="dropdown-header">Nav header</li>
+			                <li><a href="#">Separated link</a></li>
+			                <li><a href="#">One more separated link</a></li>
+			              </ul>
+			            </li>
+			            <li><a href="#">Menu Item 4</a></li>
+			            <li><a href="#">Reviews <span class="badge">1,118</span></a></li>
+			          </ul>
+			        </div><!--/.nav-collapse -->
+			      </div>
+			    </div>
+			  </div>
+				<div class="container col-sm-9" layout:fragment="contenu">
+					<h2>Contenu</h2>
+				</div>
 			</div>
+			
 		    <!-- Bootstrap core JavaScript
 		    ================================================== -->
 		    <!-- Placed at the end of the document so the pages load faster -->
@@ -85,49 +114,7 @@
 		    });
 		</script>
 		
-			<script>
-			$( ".test" ).click(function() {
-				nameEvol = $(this).attr('id');
-			  	$.ajax({
-					method: "GET",
-					url: "getAppByEvol",
-					data: {name: nameEvol}
-			    }).then(function(data) {
-			    	$('#titlebranche').text(nameEvol);
-			    	$("#infoevol").children().remove();
-			    	$("#infoevol").append('<a class="list-group-item active">Application</a>');
-			    	jQuery.each(data, function(i, index) {
-			    		name=index.name.replace("/", "");
-						$("#infoevol").append('<a class="list-group-item application" id="'+name+'">'+index.name+'</a>');
-					});
-			    });
-			});
-
-			$('#infoevol').on('click','.application', function(){
-				appli= $(this).attr('id');
-				evol = $("#titlebranche").text();
-				classAppli = $('#'+appli);
-				if (classAppli.children().length>0) 
-				{
-					classAppli.children().remove();
-				}
-				else
-				{
-					$.ajax({
-						method: "GET",
-						url: "getBrancheByAppli",
-						data: {nameEvol: evol,
-								nameAppli : "/"+appli }
-					}).then(function(data) {
-						$('#'+appli).children().remove();
-						jQuery.each(data, function(i, index) {
-							classAppli.append('<a class="list-group-item"> <b>Nom :</b> '+index.name+'<br /><b>Version :</b> '+index.version+'</a>');
-						});
-					});
-				}
-				
-			});
-			</script>
+		<script src="js/ajax.js"></script>
 			
 		</body>
 	</html>
