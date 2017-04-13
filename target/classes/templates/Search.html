@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="domain/layout" layout:decorator="LayoutDefault">
+		
+		<div class="container col-sm-10" layout:fragment="contenu" >
+		
+				<div class="col-sm-6">
+				<span th:each="evol : ${evols}">
+					<h3 th:text="${evol.name}"></h3>
+					
+					<span th:each="appli : ${evol.application}">
+						<a class="list-group-item active " th:text="${appli.name}" ></a>
+						<span th:each="branche : ${appli.branche}">
+							<a class="list-group-item " th:text="${branche.name}" ></a>
+						</span>
+						<br />
+					</span>
+				</span>
+			</div>
+	
+	</div><!-- /.container -->
+</html>

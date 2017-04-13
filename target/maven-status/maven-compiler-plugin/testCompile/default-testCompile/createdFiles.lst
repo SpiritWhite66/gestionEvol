@@ -1,0 +1,4 @@
+com\soprasteria\asp\gestionEvol\AppTest.class
+com\soprasteria\asp\gestionEvol\DAOFactoryTest.class
+com\soprasteria\asp\gestionEvol\EvolDaoTest.class
+com\soprasteria\asp\gestionEvol\ParseurEntreePythonTest.class

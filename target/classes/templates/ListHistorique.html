@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="domain/layout"
+	layout:decorator="LayoutDefault">
+
+<div class="container" layout:fragment="contenu"
+	style="padding-top: 0px;">
+	
+	<div class="row col-sm-12">
+		<button type="button" class="btn" id="reloadButton" > RELOAD </button>
+		<br />
+				<br />
+		
+			<table class="tableMerge table">
+				<thead>
+					<tr class="active">
+						<th>Version 1</th>
+						<th>Version 2</th>
+						<th width="250px">Date</th>
+						<th width="250px">Personne en charge</th>
+						<th width="80px">Fait</th>
+						<th width="180px">Outils</th>
+					</tr>
+				</thead>
+				<tbody id="bodyMerge">
+				</tbody>
+			</table>
+	</div>
+
+
+
+	<script src="js/merge.js"></script>
+
+</div>
+<!-- /.container -->
+</html>

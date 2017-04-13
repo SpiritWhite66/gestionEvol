@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="domain/layout" layout:decorator="LayoutDefault">
+		
+		<div class="container col-lg-10" layout:fragment="contenu" >
+				<ul class="list-inline">
+					<li class="btn btn-success">Success <span class="badge" th:text="${countWarning}">5</span></li>
+					<li class="btn btn-info btn-command" id="All">All <span class="badge" th:text="${countWarning}">5</span></li>
+					<li class="btn btn-warning btn-command" id="Warning">Warning <span class="badge" th:text="${countWarning}">5</span></li>
+					<li class="btn btn-danger btn-command" id="Error">Error <span class="badge" th:text="${countError}">5</span></li>
+					<button class="btn btn-primary removeAll"><span class="glyphicon glyphicon-trash"></span> Remove All </button>
+				</ul>
+				
+				<div class="col-lg-12" id="containerError">
+				</div>
+	<script src="js/ajaxError.js"></script>
+	</div><!-- /.container -->
+	
+</html>

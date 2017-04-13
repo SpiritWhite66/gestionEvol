@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+	<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="domain/layout" layout:decorator="LayoutDefault">
+		
+		<div class="container col-sm-10" layout:fragment="contenu" >
+			<div class="row">
+				<ul class="list-group col-sm-3" id="liste">
+				  <li class="list-group-item drag" draggable="true">A</li>
+				  <li class="list-group-item drag" draggable="true">B</li>
+				  <li class="list-group-item drag " draggable="true">C</li>
+				  <li class="list-group-item drag" draggable="true">D</li>
+				</ul>
+			</div>
+			<div class="row">
+
+				<table class="tableMerge table">
+					<thead>
+				    	<tr class="active">
+				        	<th>Version 1 </th>
+				        	<th>Version 2</th>
+				        	<th width="250px">Date</th>
+				        	<th> Outils </th>
+				      	</tr>
+				      	<tr class="active">
+				      	  	<td id="v1"><li class="list-group-item drop">Vide</li></td>
+				       	 	<td id="v2"><li class="list-group-item drop">Vide</li></td>
+				       	 	<td>
+									<div class="input-group date form_date col-md-10" data-date="04/07/2017" data-date-format="dd/mm/yyyy" data-link-field="dtp_input1">
+										<input class="form-control" size="16" type="text" value="" readonly="true"></input>
+										<span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+									</div>
+									<input type="hidden" id="dtp_input1" value="" /><br/>
+				       	 	</td>
+				        	<td>
+				        		<button type="button" class="btn btn-primary addInfoLineMerge"><span class="glyphicon glyphicon-plus"></span><span class="glyphicon glyphicon-info-sign"></span></button>
+				        		<button type="button" class="btn btn-success addLineMerge"><span class="glyphicon glyphicon-plus"></span></button>
+				        		<button type="button" class="btn btn-danger addLineMerge"><span class="glyphicon glyphicon-remove"></span></button>
+				        	</td>
+				      	</tr>
+				    </thead>
+				    <tbody id="bodyMerge">
+				    </tbody>
+				  </table>
+			</div>
+				
+			<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+			<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+			<script src="js/TestDragAndDrop.js"></script>
+			
+	</div><!-- /.container -->
+</html>
