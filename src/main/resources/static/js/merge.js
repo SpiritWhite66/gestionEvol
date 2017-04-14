@@ -1,11 +1,7 @@
 $(document).ready()
 {	
-	loadMergeTable();
-}
-
-$('#reloadButton').on('click', function(){
 	loadMergeTable(false);
-});
+}
 
 $('#bodyMerge').on('click',".changeFait", function(){
 	objet = $(this);
@@ -13,9 +9,32 @@ $('#bodyMerge').on('click',".changeFait", function(){
 });
 
 $('#allButton').on('click', function(){
-	loadMergeTable(true);
+	changeMode();
+	mode=false;
+	if(getMode()=="all")
+		{
+		mode=true;
+		}
+	loadMergeTable(mode);
 });
 
+	function changeMode()
+	{
+		if($(".tableMerge ").attr("data-mode")=="all")
+			{
+			$(".tableMerge ").attr("data-mode", "");
+			$("#allButton").text("Non Fait").show(300);
+			}
+		else
+			{
+			$(".tableMerge ").attr("data-mode","all");
+			$("#allButton").text("Tout").show(300);
+			}
+	}
+	function getMode()
+	{
+		return $(".tableMerge ").attr("data-mode");
+	}
 	function changeFait(objet)
 	{
 		id=objet.parent().parent().attr("data-id");
@@ -29,15 +48,21 @@ $('#allButton').on('click', function(){
 				{
 				objet.removeClass("btn-danger");
 				objet.addClass("btn-success");
-				objet.find(".glyphicon").addClass("glyphicon-ok").removeClass("glyphicon-remove");
+				objet.find(".glyphicon").addClass("glyphicon-ok");
 				objetbutton.parent().attr("class", "success");
+				if(getMode()=="")
+					{
+					objetbutton.parent().hide(1000);
+					}
 				}
 			else
 				{
 				objet.removeClass("btn-success");
 				objet.addClass("btn-danger");
-				objet.find(".glyphicon").addClass("glyphicon-remove").removeClass("glyphicon-ok");
-				objetbutton.parent().attr("class", "");
+				objet.find(".glyphicon").removeClass("glyphicon-ok");
+				objet.find(".glyphicon").removeClass("glyphicon-ok");
+				color = chooseColor(objetbutton.parent().find("#date").text());
+				objetbutton.parent().attr("class", color );
 				}
 		});
 	}
@@ -56,7 +81,8 @@ $('#allButton').on('click', function(){
 			});
 	 }
 	
-	function addLineMerge(id, version1, version2, fait, date, personne) {
+	function chooseColor(date)
+	{
 		color ="";
 		
 		dateMerge = new Date();
@@ -70,9 +96,6 @@ $('#allButton').on('click', function(){
 		after = new Date(dateMerge);
 		after.setDate(dateMerge.getDate() + 1);
 		
-		alert(before.getTime()+"<"+today+"&&"+today+"<"+after.getTime());
-
-		
 		if((today>after.getTime()))
 			{
 				color = "danger";	
@@ -82,6 +105,11 @@ $('#allButton').on('click', function(){
 			{
 				color = "warning";
 			}
+		return color 
+	};
+	
+	function addLineMerge(id, version1, version2, fait, date, personne) {
+		color = chooseColor(date);
 		if(fait)
 			{
 			color = "success";
@@ -90,14 +118,13 @@ $('#allButton').on('click', function(){
 			}
 		else
 			{
-			glyphicon ="glyphicon glyphicon-remove";
+			glyphicon ="";
 			etat= "danger";
 			}
-		boutonFait = " <button type=\"button\" class=\"btn btn-"+etat+" changeFait\"><span class=\"glyphicon "+glyphicon+"\"></span></button></td>";
+		boutonFait = " <button type=\"button\" class=\"btn btn-"+etat+" changeFait\"><span class=\"glyphicon "+glyphicon+"\"> </span></button></td>";
 		button = " <button type=\"button\" class=\"btn btn-primary infoLineMerge\"><span class=\"glyphicon glyphicon-info-sign\"></span></button></td>" 
-			    +" <button type=\"button\" class=\"btn btn-danger removeLineMerge\"><span class=\"glyphicon glyphicon-trash\"></span></button>";
 		line = $("<tr class=\""+color+"\">").attr("data-id",id).append($("<td>").attr("data-id",id).append(version1))
-				.append($("<td>").append(version2)).append($("<td>").append(date))
+				.append($("<td>").append(version2)).append($("<td>").attr("id","date").append(date))
 				.append($("<td>").append(personne))
 				.append($("<td>").append(boutonFait))
 				.append($("<td>").append(button));

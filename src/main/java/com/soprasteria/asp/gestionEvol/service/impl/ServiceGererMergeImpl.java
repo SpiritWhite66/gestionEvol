@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.soprasteria.asp.gestionEvol.model.Historique;
 import com.soprasteria.asp.gestionEvol.model.Merge;
+import com.soprasteria.asp.gestionEvol.model.TypeAction;
 import com.soprasteria.asp.gestionEvol.repository.HistoriqueRepository;
 import com.soprasteria.asp.gestionEvol.repository.MergeRepository;
+import com.soprasteria.asp.gestionEvol.repository.TypeActionRepository;
 import com.soprasteria.asp.gestionEvol.service.ServiceGererMerge;
 
 @Component
@@ -20,15 +22,20 @@ public class ServiceGererMergeImpl implements ServiceGererMerge {
 
 	@Autowired
 	MergeRepository repository;
+	
+	@Autowired
+	TypeActionRepository repositoryTypeAction;
+	
 	@Autowired
 	HistoriqueRepository historiqueRepository;
 	
 	@Override
 	public Merge save(Merge merge) {
-		merge = repository.saveAndFlush(merge);
+		merge = repository.save(merge);
 		long date = new java.util.Date().getTime();
 		Date today=new Date(date);
-		historiqueRepository.save(new Historique(1,merge.getId(), "Non identifié", today));
+		TypeAction typeaction = repositoryTypeAction.findById(1);
+		historiqueRepository.save(new Historique(typeaction,merge, "Non identifié", today));
 		return merge;
 	}
 
@@ -48,10 +55,10 @@ public class ServiceGererMergeImpl implements ServiceGererMerge {
 	public boolean modifierMergeFait(int id) {
 		Merge merge = repository.findById(id);
 		repository.setFaitForMerge(id, !merge.isFait());
-		repository.flush();
 		long date = new java.util.Date().getTime();
 		Date today=new Date(date);
-		historiqueRepository.save(new Historique(2,id , "Non identifié", today));
+		TypeAction typeaction = repositoryTypeAction.findById(2);
+		historiqueRepository.save(new Historique(typeaction,merge, "Non identifié", today));
 		return true;
 	}
 	

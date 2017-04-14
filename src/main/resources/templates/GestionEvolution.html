@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="domain/layout"
+	layout:decorator="LayoutDefault">
+
+<div class="container" layout:fragment="contenu"
+	style="padding-top: 0px;">
+
+	<div class="row col-sm-12">
+		<form class="form-horizontal">
+			
+		</form>
+
+
+		
+		<table class="tableMerge table" data-mode="">
+			<thead>
+				<tr class="active">
+					<th>Nom d'évolution</th>
+					<th>Début</th>
+					<th>Fin</th>
+					<th>Chef de projet</th>
+					<th>Référent technique</th>
+					<th></th>
+				</tr>
+				<form>
+					<tr>
+						<td><input type="email" class="form-control" id="email"
+							placeholder="Entrer nom d'évolution" /></td>
+						<td><input type="date" class="form-control" id="debut"
+							placeholder="Entrer date de début"/></td>
+						<td><input type="date" class="form-control" id="fin"
+							placeholder="Entrer date de fin" /></td>
+						<td><input type="email" class="form-control" id="email"
+							placeholder="Entrer Chef de projet" /></td>
+						<td><input type="email" class="form-control" id="email"
+							placeholder="Entrer Référent Technique" /></td>
+						<td><button type="button" class="btn btn-success addLineMerge">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>					
+						</td>
+					</tr>
+				</form>
+			</thead>
+			<tbody id="bodyMerge">
+			</tbody>
+		</table>
+	</div>
+
+
+
+
+</div>
+<!-- /.container -->
+</html>
