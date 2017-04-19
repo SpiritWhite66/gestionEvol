@@ -3,12 +3,18 @@ package com.soprasteria.asp.gestionEvol.repository.implementation;
 
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.soprasteria.asp.gestionEvol.exceptions.DAOException;
 import com.soprasteria.asp.gestionEvol.model.Appli;
 import com.soprasteria.asp.gestionEvol.model.Branche;
 import com.soprasteria.asp.gestionEvol.model.Evol;
+import com.soprasteria.asp.gestionEvol.model.Evolution;
 import com.soprasteria.asp.gestionEvol.repository.EvolDao;
+import com.soprasteria.asp.gestionEvol.service.ServiceGererEvolution;
 
 
 @Component
@@ -19,6 +25,9 @@ public class EvolDaoImpl implements EvolDao {
 
 	private ArrayList<Evol> evolsData;
 	
+	@Autowired
+	private ServiceGererEvolution evolutionService;
+ 
 	
     
     public void setEvolsData(ArrayList<Evol> evols)
@@ -57,12 +66,29 @@ public class EvolDaoImpl implements EvolDao {
     * Retourne un ArrayList de String correspondant au nom des évolutions.
     * 
     */
-	public ArrayList<String> getNameAllEvol(){
+	public ArrayList<String> getNameAllEvol(boolean tri){
+			Predicate<Evolution> p1;
+			ArrayList<Evolution> evolutionReel = null;
 
-		ArrayList<String> testEvol = new ArrayList<>();
-	    for (Evol evol : evolsData) {
-		    testEvol.add(evol.getName());
-	    }
+			if(tri)
+			{
+				evolutionReel = evolutionService.findAll();
+			}
+			ArrayList<String> testEvol = new ArrayList<>();
+		    for (Evol evol : evolsData) {
+		    	if(tri)
+		    	{
+					p1 = ev -> evol.getName().contains(ev.getNom());
+			        if(evolutionReel.stream().filter(p1).anyMatch(p1))
+			        {
+			        	testEvol.add(evol.getName());	
+			        }
+			        
+		    	} else {
+				    testEvol.add(evol.getName());
+		    	}
+		    }
+		
 
     	return testEvol;
 	}

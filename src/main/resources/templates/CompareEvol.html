@@ -38,7 +38,7 @@
 					<th>Version 2</th>
 					<th width="250px">Date</th>
 					<th width="250px">Personne en charge</th>
-					<th width="180px">Outils</th>
+					<th width="250px">Outils</th>
 				</tr>
 				<tr class="active">
 					<td id="v1"><li class="list-group-item drop">Vide</li></td>
@@ -55,10 +55,14 @@
 					<td><input type="text" class="form-control" id="personne"
 						placeholder="Nom" aria-describedby="basic-addon1" /></td>
 					<td>
-						<button type="button" class="btn btn-primary addInfoLineMerge">
+						<button type="button" class="btn btn-primary addInfoLine">
 							<span class="glyphicon glyphicon-plus"></span>
 							<span class="glyphicon glyphicon-info-sign"></span>
 						</button>
+						<div id="popupaddinformation" title="Informations complémentaire">
+						    <p>Ajouter un commentaire : 
+						    <textarea id="commentaire"></textarea></p>
+						</div>
 						<button type="button" class="btn btn-success addLineMerge">
 							<span class="glyphicon glyphicon-plus"></span>
 						</button>
@@ -74,13 +78,8 @@
 	</div>
 
 
-
-	<link rel="stylesheet"
-		href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/mergeFunction.js"></script>
 	<script src="js/DragAndDropMerge.js"></script>
-
 </div>
 <!-- /.container -->
 </html>

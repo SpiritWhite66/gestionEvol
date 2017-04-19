@@ -14,7 +14,6 @@ $(document).ready()
 		accept : '.drag',
 		drop : function(event, ui) {
 			$(this).html(ui.draggable.text());
-			alert(ui.draggable.text());
 		}
 	}); // ce bloc servira de zone de dépôt
 
@@ -24,6 +23,7 @@ $(document).ready()
 		version2 = $('.tableMerge').find('#v2').text();
 		date = $('.tableMerge').find('#dtp_input1').attr("value");
 		personne = $('.tableMerge').find('#personne').val();
+		commentaire = $('#commentaire').val();
 		if (verifLigneData() && verifNoDoublon()) {
 			$.ajax({
 				method : "POST",
@@ -32,25 +32,32 @@ $(document).ready()
 					version1 : version1,
 					version2 : version2,
 					date : date,
-					personne : personne
+					personne : personne,
+					commentaire : commentaire
 				}
-			}).done(function() {
-				addLineMerge(version1, version2, date, personne)
+			}).done(function(data) {
+				addLineMerge(data,version1, version2, date, personne, commentaire)
 			});
 		}
 
 	});
 
-	function addLineMerge(version1, version2, date, personne) {
+	function addLineMerge(id, version1, version2, date, personne, commentaire) {
 
 		button = "<button type=\"button\" class=\"btn btn-danger removeLineMerge\"><span class=\"glyphicon glyphicon-remove\"></span></button></td>"
-				+ " <button type=\"button\" class=\"btn btn-primary infoLineMerge\"><span class=\"glyphicon glyphicon-info-sign\"></span></button></td>";
-		line = $("<tr class=\"success\">").append($("<td>").append(version1))
+				+ " <button type=\"button\" class=\"btn btn-primary infoLine\"><span class=\"glyphicon glyphicon-info-sign\"></span></button></td>";
+		line = $("<tr class=\"success\">").attr("data-id",id).append($("<td>").attr("data-id",id).append(version1))
+
 				.append($("<td>").append(version2)).append(
 						$("<td>").append(date)).append(
 						$("<td>").append(personne)).append(
 						$("<td>").append(button));
+		
+		line.append($("<div>").attr("class", "popupinformation").prop('title', 'Information complémentaire : ').attr("data-id", id).append(commentaire));
+		typedialog(line.find(".popupinformation"));
+		
 		test = $('.tableMerge').find("#bodyMerge").append(line);
+		
 		setTimeout(function() {
 			$('.tableMerge').find("#bodyMerge tr:last-child").removeClass(
 					"success");

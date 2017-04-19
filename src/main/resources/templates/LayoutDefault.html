@@ -8,7 +8,10 @@
 		    <meta name="author" content="" />
 		    <link rel="icon" href="bootstrap/favicon.ico"></link>
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		
+			<link rel="stylesheet"
+				href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
+			<script
+				src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>					
 		    <title>Starter Template for Bootstrap</title>
 		
 		    <!-- Bootstrap core CSS -->
@@ -33,10 +36,7 @@
 					<a class="navbar-brand" href="/">Repository SVN : </a>
 						<form class="navbar-form navbar-left inline-form">
 							<div class="icon-addon addon-sm">
-								<select class="form-control input-sm">
-									<option>Osiris_Wrk</option>
-									<option>IODA_Wrk</option>
-									<option>...</option>
+								<select class="form-control input-sm ListFile">
 								</select>
 								<i class="icon icon-search"></i>
 							</div>
@@ -61,12 +61,12 @@
 			      <div class="navbar navbar-default" role="navigation">
 			        <div class="navbar-collapse collapse sidebar-navbar-collapse">
 			          <ul class="nav navbar-nav">
-			          	<li class="active"><a href="/Merge">TODO Merge</a></li>
-			      		<li><a href="/Historique">Historique</a></li>
+			          	<li class="active"><a href="/Merge">TODO</a></li>
 			          	<li><a href="/">Ligne d'évolution</a></li>
 			            <li><a href="/SVN">Affichage classique</a></li>
 			            <li><a href="/Error">Erreur</a></li>
-			            <li><a href="/Administration">Administration</a></li>
+			            <li><a href="/Historique">Historique</a></li>
+			            <li><a href="/GererEvolution">Administration</a></li>
 			            <!--  
 			            <li class="dropdown">
 			              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
@@ -95,12 +95,12 @@
 		    <!-- Bootstrap core JavaScript
 		    ================================================== -->
 		    <!-- Placed at the end of the document so the pages load faster -->
+		    <script src="js/mergeFunction.js"></script>
 		    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
 			<script type="text/javascript" src="bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
 			<script type="text/javascript" src="bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
 		    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 		    <script src="bootstrap/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
-			
 			<script type="text/javascript">
 		    $('.form_date').datetimepicker({
 		        //language:  'fr',

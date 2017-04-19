@@ -57,8 +57,6 @@ public class ErrorDaoImpl implements ErrorDao {
 	public boolean delete(String idError) throws Exception {
 		Predicate<ErrorException> p1;
 		p1 = error -> error.getName().equals(idError);
-		System.out.println(idError);
-		System.out.println(errorsData.stream().anyMatch(p1));
 		return errorsData.removeIf(p1);
 	}
 }

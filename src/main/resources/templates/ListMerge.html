@@ -4,10 +4,17 @@
 
 <div class="container" layout:fragment="contenu"
 	style="padding-top: 0px;">
-	
 	<div class="row col-sm-12">
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="container-fluid">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="/Merge">Merge</a></li>
+						<li><a href="/Renommer">Renommage</a></li>
+						<li><a href="/Supprimer">Suppression</a></li>
+					</ul>
+			</div>
+		</nav>
 		<button type="button" class="btn btn-primary" id="allButton" > Non Fait </button>
-		<br />
 				<br />
 		
 			<table class="tableMerge table" data-mode="">
@@ -27,7 +34,7 @@
 	</div>
 
 
-
+	<script src="js/mergeFunction.js"></script>
 	<script src="js/merge.js"></script>
 
 </div>

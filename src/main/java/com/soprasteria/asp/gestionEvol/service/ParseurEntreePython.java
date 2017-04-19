@@ -1,5 +1,7 @@
 package com.soprasteria.asp.gestionEvol.service;
 
+import java.util.ArrayList;
+
 import com.soprasteria.asp.gestionEvol.exceptions.DAOConfigurationException;
 import com.soprasteria.asp.gestionEvol.model.StructureFichier;
 
@@ -19,5 +21,6 @@ public interface ParseurEntreePython {
     * Si une erreur de lecture survient.
     */
     public StructureFichier getData(String name); 
+	public ArrayList<String> getAllFileRepo();
 
 }

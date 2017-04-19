@@ -6,4 +6,5 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 public interface SvnResultFileReader {
 	public <T> ArrayList<T> getData(String name, TypeReference<ArrayList<T>> type);
+	public ArrayList<String> getAllFileRepo();
 }

@@ -19,6 +19,10 @@ public class Evolution {
 	private int id;
 	
 	@NotNull
+	@Column(length = 300,columnDefinition="_varchar")
+	private String nom;
+
+	@NotNull
 	@Column(columnDefinition="date")
 	private Date debut;
 	
@@ -40,7 +44,15 @@ public class Evolution {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public String getNom() {
+		return nom;
+	}
 
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	
 	public Date getDebut() {
 		return debut;
 	}

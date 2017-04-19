@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="domain/layout"
+	layout:decorator="LayoutDefault">
+
+<div class="container" layout:fragment="contenu"
+	style="padding-top: 0px;">
+
+	<div class="row col-sm-12">
+
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="container-fluid">
+					<ul class="nav navbar-nav">
+						<li><a href="/Merge">Merge</a></li>
+						<li><a href="/Renommer">Renommage</a></li>
+						<li class="active"><a href="/Supprimer">Suppression</a></li>
+					</ul>
+			</div>
+		</nav>
+		<table class="tableData table" data-mode="">
+			<thead>
+				<tr class="active">
+					<th>Branche</th>
+					<th width="250px">Date</th>
+					<th width="250px">Personne en charge</th>
+					<th width="80px">Fait</th>
+					<th width="180px">Outils</th>
+				</tr>
+				<form>
+					<tr class="active">
+						<td><input type="text" class="form-control" id="src"
+							placeholder="Branche à supprimer" /></td>
+						<td><input type="date" class="form-control" id="date"
+							placeholder="Entrer date de réalisation" /></td>
+						<td><input type="text" class="form-control" id="personne"
+							placeholder="Entrer la personne en charge" /></td>
+						<td></td>
+						<td><button type="button" class="btn btn-success addLine">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button></td>
+					</tr>
+				</form>
+			</thead>
+			<tbody id="bodyTable">
+			</tbody>
+		</table>
+	</div>
+
+
+	<script src="js/mergeFunction.js"></script>
+	<script src="js/supprimeBranche.js"></script>
+
+
+</div>
+<!-- /.container -->
+</html>

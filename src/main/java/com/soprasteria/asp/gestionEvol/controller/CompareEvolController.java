@@ -33,7 +33,6 @@ public class CompareEvolController {
 		String chemin = "Repo\\Osiris_wrk.json";
 		listEvol = parseur.getData(chemin).getListEvol();
 		serviceEvol.setEvolsData(listEvol);
-		
 	}
 	
 	@RequestMapping(value = "/CompareEvol", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")

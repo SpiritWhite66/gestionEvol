@@ -3,11 +3,13 @@ package com.soprasteria.asp.gestionEvol.service;
 import java.util.ArrayList;
 
 import com.soprasteria.asp.gestionEvol.model.Evolution;
+import com.soprasteria.asp.gestionEvol.model.Historique;
 import com.soprasteria.asp.gestionEvol.model.Merge;
 
 public interface ServiceGererEvolution {
 
-	public Evolution save(Merge merge);
+	public ArrayList<Evolution> findAll();
+	public Evolution save(Evolution evolution);
 	public boolean modifierEvolution(int id);
-
+	public int remove(int id);
 }

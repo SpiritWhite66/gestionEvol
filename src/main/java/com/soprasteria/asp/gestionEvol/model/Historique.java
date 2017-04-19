@@ -23,8 +23,10 @@ public class Historique {
 	@ManyToOne
 	private TypeAction type;  
 	
-    @ManyToOne
-	private Merge merge;
+	@NotNull
+	private char type_objet;
+	@NotNull
+	private int merge_id;
 	
     @NotNull
 	@Column(length = 100,columnDefinition="_varchar")
@@ -38,11 +40,21 @@ public class Historique {
 	public Historique() {
 	}
 	
-	public Historique(TypeAction type, Merge merge, String personne, Date date) {
+	public Historique(char type_objet, TypeAction type, int merge, String personne, Date date) {
+		this.type_objet = type_objet;
 		this.type = type;
-		this.merge = merge;
+		this.merge_id = merge;
 		this.qui = personne;
 		this.date = date;
+	}
+
+	
+	public char getType_objet() {
+		return type_objet;
+	}
+
+	public void setType_objet(char type_objet) {
+		this.type_objet = type_objet;
 	}
 
 	public int getId() {
@@ -61,12 +73,12 @@ public class Historique {
 		this.type = type;
 	}
 
-	public Merge getMerge() {
-		return merge;
+	public int getMerge() {
+		return merge_id;
 	}
 
-	public void setMerge(Merge merge) {
-		this.merge = merge;
+	public void setMerge(int merge) {
+		this.merge_id = merge;
 	}
 
 	public String getQui() {

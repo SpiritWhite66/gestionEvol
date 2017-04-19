@@ -13,7 +13,7 @@ public interface EvolDao {
 	public void setEvolsData(ArrayList<Evol> evols);
 	public Evol find(String name);
 	public ArrayList<Branche> findBrancheByApplication(Evol evol, String name);
-	public ArrayList<String> getNameAllEvol();
+	public ArrayList<String> getNameAllEvol(boolean tri);
 	public ArrayList<Evol> findAll();
 	public ArrayList<Appli> findApplicationForEvols(ArrayList<Evol> evols);
 	

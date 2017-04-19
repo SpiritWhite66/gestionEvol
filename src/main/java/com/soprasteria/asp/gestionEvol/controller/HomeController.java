@@ -4,53 +4,95 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.soprasteria.asp.gestionEvol.model.Appli;
 import com.soprasteria.asp.gestionEvol.model.Branche;
 import com.soprasteria.asp.gestionEvol.model.Evol;
+import com.soprasteria.asp.gestionEvol.model.PropertySession;
 import com.soprasteria.asp.gestionEvol.repository.EvolDao;
 import com.soprasteria.asp.gestionEvol.service.ParseurEntreePython;
 import com.soprasteria.asp.gestionEvol.service.TriSVN;
+import com.soprasteria.asp.gestionEvol.service.impl.ParseurEntreePythonImpl;
 
 @Controller
+@SessionAttributes(value = "propertybean", types = {PropertySession.class})
+
 public class HomeController {
 	
+	private static Logger LOGGER = LoggerFactory.getLogger(ParseurEntreePythonImpl.class);
+
 	@Autowired
 	private ParseurEntreePython parseur;
 	
 	@Autowired
 	private EvolDao serviceevol;	
-
-	private void readDataSearch()
+	
+	@ModelAttribute("propertybean")
+    public PropertySession addAttributes() {
+		PropertySession property = new PropertySession();
+		property.setTri(false);
+		property.setFileJSON("");
+		return property;
+    }
+	
+	private void readDataSearch(PropertySession sessionObj, ModelMap model)
 	{
+		if(sessionObj==null)
+		{
+			LOGGER.debug("position dans afficheListEvol sessionObj null =>"+sessionObj);
+			sessionObj = new PropertySession(false, null);
+			model.addAttribute("propertybean", sessionObj);
+		}
+		String chemin = sessionObj.getFileJSON();
 		ArrayList<Evol> listEvol;
-		String chemin = "Repo\\Osiris_wrk.json";
+		if(chemin==null)
+		{
+			chemin = "Repo\\Osiris_wrk.json";
+		}
 		listEvol = parseur.getData(chemin).getListEvol();
 		serviceevol.setEvolsData(listEvol);
 	}
 	
 	@RequestMapping	("/")
-	public String afficheListeEvol(ModelMap model)
-	{		       
-		readDataSearch();
-		ArrayList<String> evolAll = serviceevol.getNameAllEvol();
+	public String afficheListeEvol(HttpSession session, ModelMap model)
+	{
+		PropertySession sessionObj = (PropertySession)session.getAttribute("propertybean");
+		readDataSearch(sessionObj, model);
+		ArrayList<String> evolAll = serviceevol.getNameAllEvol(((PropertySession) model.get("propertybean")).isTri());
 		model.put("evols", evolAll);
 		return "ListEvol";
 	}
 	
+	@RequestMapping("/InverseTri")
+	public String inverseTri(HttpSession session, ModelMap model)
+	{
+		PropertySession sessionObj = (PropertySession)session.getAttribute("propertybean");
+		sessionObj.setTri(!sessionObj.isTri());
+		return "redirect:/";
+	}
+	
+	
 	@RequestMapping	("/SVN")
-	public String afficheListeSVN(ModelMap model)
+	public String afficheListeSVN(HttpSession session, ModelMap model)
 	{		       
-		readDataSearch();
+		PropertySession sessionObj = (PropertySession)session.getAttribute("propertybean");
+		readDataSearch(sessionObj, model);	
 		TriSVN test = new TriSVN(serviceevol.findAll());
 		ArrayList<Appli> testSVN = test.triParApplication();
 		model.put("applications", testSVN);
@@ -58,9 +100,10 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/getBrancheSVN" ,method=RequestMethod.GET)
-    public @ResponseBody ArrayList<Branche> getBrancheSVN(@RequestParam(value="name", required=true) String name) 
+    public @ResponseBody ArrayList<Branche> getBrancheSVN(HttpSession session, ModelMap model, @RequestParam(value="name", required=true) String name) 
     {
-		readDataSearch();
+		PropertySession sessionObj = (PropertySession)session.getAttribute("propertybean");
+		readDataSearch(sessionObj, model);
 		TriSVN test = new TriSVN(serviceevol.findAll());
 		ArrayList<Appli> testSVN = test.triParApplication();
 		
@@ -76,20 +119,47 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/getAppByEvol" ,method=RequestMethod.GET)
-    public @ResponseBody ArrayList<Appli> getAppliByEvol(@RequestParam(value="name", required=true) String name) 
+    public @ResponseBody ArrayList<Appli> getAppliByEvol(HttpSession session, ModelMap model, @RequestParam(value="name", required=true) String name) 
     {
-		readDataSearch();
+		PropertySession sessionObj = (PropertySession)session.getAttribute("propertybean");
+		readDataSearch(sessionObj, model);
 		return serviceevol.find(name).getApplication();
 	}
 	
 	@RequestMapping(value="/getBrancheByAppli" ,method=RequestMethod.GET)
-    public @ResponseBody ArrayList<Branche> getBrancheByAppli(@RequestParam(value="nameEvol", required=true) String nameEvol, @RequestParam(value="nameAppli", required=true) String nameAppli) 
+    public @ResponseBody ArrayList<Branche> getBrancheByAppli(HttpSession session, ModelMap model, @RequestParam(value="nameEvol", required=true) String nameEvol, @RequestParam(value="nameAppli", required=true) String nameAppli) 
     {
-		readDataSearch();	
+		PropertySession sessionObj = (PropertySession)session.getAttribute("propertybean");
+		readDataSearch(sessionObj, model);
 		Evol evol = serviceevol.find(nameEvol);
 		return serviceevol.findBrancheByApplication(evol, nameAppli);
 	}
 	
+	@RequestMapping(value="/getAllFile")
+	public @ResponseBody ArrayList<String> getAllFile(HttpSession session)
+	{
+		PropertySession sessionObj = (PropertySession)session.getAttribute("propertybean");
+		ArrayList<String> listFile = new ArrayList<>();
+		ArrayList<String> listFileTmp = new ArrayList<>();
+		listFileTmp=parseur.getAllFileRepo();
+
+		if(sessionObj.getFileJSON()!=null){
+			listFile.add(sessionObj.getFileJSON().split("/")[1]);
+			listFileTmp.remove(sessionObj.getFileJSON().split("/")[1]);
+
+		}
+		listFile.addAll(listFileTmp);
+		return listFile;
+	}
+	
+	@RequestMapping(value="/setFile", method=RequestMethod.POST)
+	public @ResponseBody void setFile(HttpSession session, @RequestParam(value="nameFile", required=true) String nameFile)
+	{
+		PropertySession sessionObj = (PropertySession)session.getAttribute("propertybean");
+		System.out.println(sessionObj);
+		System.out.println(nameFile);
+		sessionObj.setFileJSON("Repo/"+nameFile);
+	}
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	static class JsonNotFoundException extends RuntimeException{
 

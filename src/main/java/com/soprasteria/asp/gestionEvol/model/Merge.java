@@ -14,48 +14,28 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="merge")
-public class Merge {
-
-	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private int id;
-	  
+public class Merge extends AbstractModelAction {
 	@NotNull
 	@Column(length = 300,columnDefinition="_varchar")
 	private String version1;
 	@NotNull
 	@Column(length = 300,columnDefinition="_varchar")
-	private String version2;
-	@NotNull
-	@Column(length = 300,columnDefinition="_varchar")
-	private String personne;
-	@NotNull
-	@Column(columnDefinition="boolean")
-	private boolean fait;
-	@NotNull
-	@Column(columnDefinition="date")
-	private Date date;
+	private String version2;	
 	
+	private String commentaire;
 	
 	public Merge() {
 	}
 	
-	public Merge(String version1, String version2, boolean fait, String personne, Date date) {
+	public Merge(String version1, String version2, boolean fait, String personne, Date date, String commentaire) {
 		this.fait = fait;
 		this.version1 = version1;
 		this.version2 = version2;
 		this.personne = personne;
 		this.date = date;
+		this.commentaire=commentaire;
 	}
 	
-	public boolean isFait() {
-		return fait;
-	}
-
-	public void setFait(boolean fait) {
-		this.fait = fait;
-	}
-
 	public String getversion1() {
 		return version1;
 	}
@@ -68,25 +48,13 @@ public class Merge {
 	public void setversion2(String version2) {
 		this.version2 = version2;
 	}
-	public String getPersonne() {
-		return personne;
-	}
-	public void setPersonne(String personne) {
-		this.personne = personne;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(String date) throws ParseException {
-		 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-	     java.util.Date parsed = format.parse(date);
-	     java.sql.Date dateSql = new Date(parsed.getTime());
-	     this.date=dateSql;
+	public String getCommentaire() {
+		return commentaire;
 	}
 
-	public int getId() {
-		return id;
+	public void setCommentaire(String commentaire) {
+		this.commentaire = commentaire;
 	}
-	
-	
+
+
 }

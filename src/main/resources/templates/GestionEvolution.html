@@ -2,17 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="domain/layout"
 	layout:decorator="LayoutDefault">
 
-<div class="container" layout:fragment="contenu"
+<div class="col-sm-10 container" layout:fragment="contenu"
 	style="padding-top: 0px;">
 
 	<div class="row col-sm-12">
-		<form class="form-horizontal">
-			
-		</form>
-
-
-		
-		<table class="tableMerge table" data-mode="">
+		<h3>Liste des évolutions</h3>
+		<p>Renseignez les évolutions existante sur le projet. Pourra servir pour afficher uniquement les réels évolutions dans l'affichage</p>
+		<table class="tableEvolution table" data-mode="">
 			<thead>
 				<tr class="active">
 					<th>Nom d'évolution</th>
@@ -23,30 +19,34 @@
 					<th></th>
 				</tr>
 				<form>
-					<tr>
-						<td><input type="email" class="form-control" id="email"
+					<tr class="active">
+						<td><input type="email" class="form-control" id="evolution"
 							placeholder="Entrer nom d'évolution" /></td>
 						<td><input type="date" class="form-control" id="debut"
 							placeholder="Entrer date de début"/></td>
 						<td><input type="date" class="form-control" id="fin"
 							placeholder="Entrer date de fin" /></td>
-						<td><input type="email" class="form-control" id="email"
+						<td><input type="email" class="form-control" id="chefprojet"
 							placeholder="Entrer Chef de projet" /></td>
-						<td><input type="email" class="form-control" id="email"
+						<td><input type="email" class="form-control" id="reftechnique"
 							placeholder="Entrer Référent Technique" /></td>
-						<td><button type="button" class="btn btn-success addLineMerge">
+						<td><button type="button" class="btn btn-success addLineEvolution">
 								<span class="glyphicon glyphicon-plus"></span>
 							</button>					
 						</td>
 					</tr>
 				</form>
 			</thead>
-			<tbody id="bodyMerge">
+			<tbody id="bodyEvolution">
 			</tbody>
 		</table>
 	</div>
+	<div class="row col-sm-10">
+		<h3>Liste des SVN</h3>
+		<p>Renseignez les évolutions existante sur le projet. Pourra servir pour afficher uniquement les réels évolutions dans l'affichage</p>
+	</div>
 
-
+	<script src="js/evolution.js"></script>
 
 
 </div>

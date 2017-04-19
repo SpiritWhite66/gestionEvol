@@ -21,7 +21,7 @@
 				classAppli = $('#'+addslashes(appli)+" .data");
 				if (classAppli.children().length>0) 
 				{
-					$('#'+appli+" .application").attr("class","glyphicon glyphicon-menu-down application" )
+					$('#'+addslashes(appli)+" .application").attr("class","glyphicon glyphicon-menu-down application" )
 					classAppli.children().hide(200, function(){
 						classAppli.children().remove();
 					});					
@@ -34,11 +34,25 @@
 						data: {nameEvol: evol,
 								nameAppli : "/"+appli }
 					}).then(function(data) {
-						$('#'+appli+" .application").attr("class","glyphicon glyphicon-menu-up application" )
+						$('#'+addslashes(appli)+" .application").attr("class","glyphicon glyphicon-menu-up application" )
 						classAppli.children().remove();
 						classAppli.append('<br /><span class="blocInfo"></span>').hide;
 						jQuery.each(data, function(i, index) {
-							$('#'+addslashes(appli)+' .blocInfo').append('<a class="list-group-item"> <b>Nom :</b> '+index.name+'<br /><b>Version :</b> '+index.version+'</a>').hide();
+							buttonRenommer=$("<button>").addClass("btn btn-primary").append("Renommer");
+							buttonSupprimer=$("<button>").addClass("btn btn-primary").append("Supprimer")
+							$('#'+addslashes(appli)+' .blocInfo')
+							.append($("<a>").addClass("list-group-item")
+							.append($("<b>").append("Nom :"))
+							.append(index.name)
+							.append("<br />")
+							.append($("<b>").append("Version :"))
+							.append(index.version)
+							.append("<br/>")
+							.append($("<b>").append("Action :"))
+							.append("<br/> ")
+							.append(buttonRenommer)
+							.append(buttonSupprimer));
+
 						});
 						$('#'+addslashes(appli)+' .blocInfo').show(200);
 					});

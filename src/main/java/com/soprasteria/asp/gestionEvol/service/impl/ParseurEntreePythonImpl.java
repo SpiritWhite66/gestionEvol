@@ -33,6 +33,17 @@ public class ParseurEntreePythonImpl implements ParseurEntreePython{
 		data.setListEvol(fileReader.getData(name, new TypeReference<ArrayList<Evol>>() {}));
 		return data;
 	}
+
+
+
+
+
+	@Override
+	public ArrayList<String> getAllFileRepo() {
+		return fileReader.getAllFileRepo();
+	}
+
+
 }
 
 
