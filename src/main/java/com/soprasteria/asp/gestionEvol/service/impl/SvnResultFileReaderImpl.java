@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,5 +45,16 @@ public class SvnResultFileReaderImpl implements SvnResultFileReader {
 			LOGGER.error(e.toString());
 		}
 		return listData;
+	}
+
+	@Override
+	public ArrayList<String> getAllFileRepo() {
+		String path = new File(System.getProperty("user.dir")).getParent();
+		File pathFile = new File(path, "Repo");
+		File[] listFileTmp = pathFile.listFiles();
+		ArrayList<File> listFile = new ArrayList(Arrays.asList(listFileTmp));
+		ArrayList<String> names = (ArrayList<String>) listFile.stream().map(File::getName).collect(Collectors.toList());
+
+		return names;
 	}
 }
