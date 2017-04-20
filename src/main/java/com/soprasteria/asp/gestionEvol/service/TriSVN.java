@@ -42,14 +42,11 @@ public class TriSVN {
 				p1 = app -> app.getName().equals(appli.getName());
 		        if(listResult.stream().filter(p1).anyMatch(p1))
 		        {
-		        	System.out.println("true");
 		        	i = indexOfAppli(appli.getName(), listResult);
 		        	listResult.get(i).getBranche().addAll(appli.getBranche());
 		        }
 		        else
 		        {
-		        	System.out.println("false");
-		        	System.out.println(appli.getName());
 		        	listResult.add(appli);
 		        }
 			}

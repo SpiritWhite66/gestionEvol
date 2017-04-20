@@ -1,16 +1,20 @@
 package com.soprasteria.asp.gestionEvol.service.impl;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.soprasteria.asp.gestionEvol.model.Branche;
 import com.soprasteria.asp.gestionEvol.model.Historique;
-import com.soprasteria.asp.gestionEvol.model.Merge;
-import com.soprasteria.asp.gestionEvol.model.RenommeBranche;
-import com.soprasteria.asp.gestionEvol.model.SupprimeBranche;
+import com.soprasteria.asp.gestionEvol.model.ActionMerge;
+import com.soprasteria.asp.gestionEvol.model.ActionRenommeBranche;
+import com.soprasteria.asp.gestionEvol.model.ActionSupprimeBranche;
 import com.soprasteria.asp.gestionEvol.model.TypeAction;
 import com.soprasteria.asp.gestionEvol.repository.HistoriqueRepository;
 import com.soprasteria.asp.gestionEvol.repository.MergeRepository;
@@ -26,7 +30,10 @@ public class ServiceGererBrancheImpl implements ServiceGererBranche {
 
 	private int PASSAGE_FAIT = 2;
 	private int PASSAGE_NON_FAIT= 3;
-	
+	private int CREATION_MERGE = 1;
+	private int CREATION_SUPPRIME = 6;
+	private int CREATION_RENOMME = 7;
+
 	private char TYPE_OBJET_MERGE='M';
 	private char TYPE_OBJET_RENOMME='R';
 	private char TYPE_OBJET_SUPPRIME='S';
@@ -47,31 +54,34 @@ public class ServiceGererBrancheImpl implements ServiceGererBranche {
 	@Autowired
 	SupprimeBrancheRepository supprimeBrancheRepository;
 	
+	/***************************
+	 * ACTION : MERGE
+	 ***************************/
 	@Override
-	public Merge save(Merge merge) {
+	public ActionMerge save(ActionMerge merge) {
 		merge = repository.save(merge);
 		long date = new java.util.Date().getTime();
 		Date today=new Date(date);
-		TypeAction typeaction = repositoryTypeAction.findById(1);
+		TypeAction typeaction = repositoryTypeAction.findById(CREATION_MERGE);
 		historiqueRepository.save(new Historique(TYPE_OBJET_MERGE, typeaction,merge.getId(), "Non identifié", today));
 		return merge;
 	}
 
 	@Override
-	public ArrayList<Merge> findAllMergeOrderByDateDesc(Boolean all) {
+	public ArrayList<ActionMerge> findAllMergeOrderByDateDesc(Boolean all) {
 		if(all!=null && all)
 		{
-			return (ArrayList<Merge>) repository.findAllByOrderByDateDesc();
+			return (ArrayList<ActionMerge>) repository.findAllByOrderByDateDesc();
 		}
 		else
 		{
-			return (ArrayList<Merge>) repository.findAllByFaitOrderByDateDesc(all);
+			return (ArrayList<ActionMerge>) repository.findAllByFaitOrderByDateDesc(all);
 		}
 	}
 	
 	@Override
 	public boolean modifierMergeFait(int id) {
-		Merge merge = repository.findById(id);
+		ActionMerge merge = repository.findById(id);
 		repository.setFaitForMerge(id, !merge.isFait());
 		long date = new java.util.Date().getTime();
 		Date today=new Date(date);
@@ -80,46 +90,30 @@ public class ServiceGererBrancheImpl implements ServiceGererBranche {
 		return true;
 	}
 
-
+	/***************************
+	 * ACTION : RENOMME BRANCHE
+	 ***************************/
 	
 	@Override
-	public RenommeBranche save(RenommeBranche branche) {
+	public ActionRenommeBranche save(ActionRenommeBranche branche) {
 		
 		long date = new java.util.Date().getTime();
 		Date today=new Date(date);
-		TypeAction typeaction = repositoryTypeAction.findById(1);
+		TypeAction typeaction = repositoryTypeAction.findById(CREATION_RENOMME);
 		historiqueRepository.save(new Historique(TYPE_OBJET_RENOMME,typeaction,branche.getId(), "Non identifié", today));
 		
 		return renommeBrancheRepository.save(branche);
 	}
 
 	@Override
-	public ArrayList<RenommeBranche> findAllRenommeOrderByDateDesc() {
+	public ArrayList<ActionRenommeBranche> findAllRenommeOrderByDateDesc() {
 		return renommeBrancheRepository.findAllByOrderByDateDesc();
-	}
-
-	
-	
-	@Override
-	public SupprimeBranche save(SupprimeBranche branche) {
-		
-		long date = new java.util.Date().getTime();
-		Date today=new Date(date);
-		TypeAction typeaction = repositoryTypeAction.findById(1);
-		historiqueRepository.save(new Historique(TYPE_OBJET_SUPPRIME,typeaction,branche.getId(), "Non identifié", today));
-		
-		return supprimeBrancheRepository.save(branche);
-	}
-
-	@Override
-	public ArrayList<SupprimeBranche> findAllSupprimeOrderByDateDesc() {
-		return supprimeBrancheRepository.findAllByOrderByDateDesc();
 	}
 
 	@Override
 	public boolean modifierRenommeFait(int id) {
-		RenommeBranche renommeBranche = renommeBrancheRepository.findById(id);
-		repository.setFaitForMerge(id, !renommeBranche.isFait());
+		ActionRenommeBranche renommeBranche = renommeBrancheRepository.findById(id);
+		renommeBrancheRepository.setFaitForRenomme(id, !renommeBranche.isFait());
 		long date = new java.util.Date().getTime();
 		Date today=new Date(date);
 		int type=2;
@@ -128,11 +122,45 @@ public class ServiceGererBrancheImpl implements ServiceGererBranche {
 		historiqueRepository.save(new Historique(TYPE_OBJET_RENOMME,typeaction,id, "Non identifié", today));
 		return true;
 	}
+	
+	@Override
+	public ArrayList<ActionRenommeBranche> findByListRenommeBranche(ArrayList<Branche> listBranche)
+	{
+		ArrayList<String> branches = (ArrayList<String>) listBranche.stream().map(Branche::getName).collect(Collectors.toList());
+		return renommeBrancheRepository.findByListBranche(branches);
+	}
+	
+	/***************************
+	 * ACTION : SUPPRIME BRANCHE
+	 ***************************/
+	
+	@Override
+	public ActionSupprimeBranche save(ActionSupprimeBranche branche) {
+		
+		long date = new java.util.Date().getTime();
+		Date today=new Date(date);
+		TypeAction typeaction = repositoryTypeAction.findById(CREATION_SUPPRIME);
+		historiqueRepository.save(new Historique(TYPE_OBJET_SUPPRIME,typeaction,branche.getId(), "Non identifié", today));
+		
+		return supprimeBrancheRepository.save(branche);
+	}
+
+	@Override
+	public ArrayList<ActionSupprimeBranche> findAllSupprimeOrderByDateDesc() {
+		return supprimeBrancheRepository.findAllByOrderByDateDesc();
+	}
+
+	@Override
+	public ArrayList<ActionSupprimeBranche> findByListSupprimeBranche(ArrayList<Branche> listBranche)
+	{
+		ArrayList<String> branches = (ArrayList<String>) listBranche.stream().map(Branche::getName).collect(Collectors.toList());
+		return supprimeBrancheRepository.findByListBranche(branches);
+	}
 
 	@Override
 	public boolean modifierSupprimeFait(int id) {
-		SupprimeBranche supprimeBranche = supprimeBrancheRepository.findById(id);
-		repository.setFaitForMerge(id, !supprimeBranche.isFait());
+		ActionSupprimeBranche supprimeBranche = supprimeBrancheRepository.findById(id);
+		supprimeBrancheRepository.setFaitForSupprime(id, !supprimeBranche.isFait());
 		long date = new java.util.Date().getTime();
 		Date today=new Date(date);
 		TypeAction typeaction = repositoryTypeAction.findById(determineAction(supprimeBranche.isFait()));
@@ -140,7 +168,7 @@ public class ServiceGererBrancheImpl implements ServiceGererBranche {
 		return true;
 	}
 	
-	public int determineAction(boolean fait)
+	private int determineAction(boolean fait)
 	{
 		if(fait)
 		{
@@ -149,6 +177,8 @@ public class ServiceGererBrancheImpl implements ServiceGererBranche {
 			return PASSAGE_FAIT;
 		}
 	}
+
+
 	
 	
 	

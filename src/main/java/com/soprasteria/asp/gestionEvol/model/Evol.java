@@ -25,7 +25,6 @@ public class Evol {
 	    for (Appli appli : application) {
 	        if(appli.getName().equals(name))
 	        {
-	        	System.out.println(appli.getName());
 	        	return appli;
 	        }
 	    }

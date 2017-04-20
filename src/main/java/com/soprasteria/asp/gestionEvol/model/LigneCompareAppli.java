@@ -24,15 +24,21 @@ public class LigneCompareAppli {
 			branche = new ArrayList<>();  // de la taille de "evol"
 			Appli application;
 			String brancheVersionString = "";
-			Branche brancheTmp = new Branche();
+			Branche brancheTmp = null;
 			for(Evol evol : evolList)
 			{
-				application = evol.find(appli.getName());
+				brancheVersionString="";
+				brancheTmp = new Branche();
+				brancheTmp.setVersion("Aucune Version");
+				brancheTmp.setName("Aucune Version");
+				
+				application = evol.find(appli.getName()); // on cherche la présence de l'application dans l'évolution sinon on dit qu'il n'existe pas de version
+				
 				if(application != null)
 				{
-					if(application.getBranche().size()>1)
+					if(application.getBranche().size()>1) // Uniquement si c'est une "vrai" application ayant des branches
 					{
-						for(Branche branche : application.getBranche())
+						for(Branche branche : application.getBranche()) // on concatène les différentes version
 						{
 							brancheVersionString += branche.getVersion() + "\n";
 						}
@@ -43,8 +49,6 @@ public class LigneCompareAppli {
 						branche.add(application.getBranche().get(0));
 					}
 				}else{
-						brancheTmp.setVersion("Aucune Version");
-						brancheTmp.setName("Aucune Version");
 						branche.add(brancheTmp);
 				}
 			}

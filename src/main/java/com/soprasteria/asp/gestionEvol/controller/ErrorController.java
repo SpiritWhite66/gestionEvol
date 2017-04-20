@@ -16,8 +16,8 @@ import com.soprasteria.asp.gestionEvol.model.ResponseError;
 import com.soprasteria.asp.gestionEvol.model.exceptions.ErrorException;
 import com.soprasteria.asp.gestionEvol.repository.ErrorDao;
 import com.soprasteria.asp.gestionEvol.repository.implementation.ErrorDaoImpl;
-import com.soprasteria.asp.gestionEvol.service.ConvertResponse;
 import com.soprasteria.asp.gestionEvol.service.ParseurErreurPython;
+import com.soprasteria.asp.gestionEvol.service.impl.PrepareResponseImpl;
 
 @Controller
 public class ErrorController {
@@ -25,7 +25,7 @@ public class ErrorController {
 	@Autowired
 	private ParseurErreurPython parseur;
 	
-	private ConvertResponse convertisseur;
+	private PrepareResponseImpl convertisseur;
 	
 	 
 	private ErrorDao readDataError()
@@ -56,7 +56,7 @@ public class ErrorController {
 		
 		ArrayList<ResponseError> response = null;
 		ArrayList<ErrorException> errorAll = null;
-		convertisseur=new ConvertResponse();
+		convertisseur=new PrepareResponseImpl();
 		if(errorType.isPresent() && errorType.get().equals("Error"))
 		{
 			errorAll = serviceError.findError(2);

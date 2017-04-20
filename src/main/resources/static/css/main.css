@@ -8,3 +8,13 @@
 {
 	word-wrap: break-word;
 }
+
+#bodyTable tr
+{
+	word-wrap : break-word;
+}
+
+table
+{
+	table-layout: fixed;
+}

@@ -13,7 +13,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 
 @MappedSuperclass
-public abstract class AbstractModelAction {
+public abstract class AbstractActionModel {
 
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)

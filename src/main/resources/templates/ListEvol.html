@@ -38,6 +38,47 @@
 				</div>
 			</div>
 			
+			<!-- Modal -->
+			  <div class="modal fade" id="popupaddrenomme" role="dialog">
+			    <div class="modal-dialog modal-lg">
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Ajouter une action de renommage : </h4>
+			        </div>
+			        <div class="modal-body">
+			         	<input type="text" class="form-control" id="src" placeholder="Branche source" /> <br/>
+			         	<input type="text" class="form-control" id="dest" placeholder="Branche destination" /> <br/>
+						<input type="date" class="form-control" id="date" placeholder="Entrer date de réalisation" /> <br/>
+						<input type="text" class="form-control" id="personne" placeholder="Entrer la personne en charge" /> <br/>
+			        </div>
+			        <div class="modal-footer">
+			          	<button type="button" class="btn btn-success" id="saveRenomme" data-dismiss="modal">Enregistrer</button>
+			         	<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+			        </div>
+			      </div>
+			    </div>
+			  </div>		
+			  <!-- Modal -->
+			  <div class="modal fade" id="popupaddsupprime" role="dialog">
+			    <div class="modal-dialog modal-lg">
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			          <h4 class="modal-title">Ajouter une action de suppression : </h4>
+			        </div>
+			        <div class="modal-body">
+			         	<input type="text" class="form-control" id="src" placeholder="Branche à supprimer" /> <br/>
+						<input type="date" class="form-control" id="date" placeholder="Entrer date de réalisation" /> <br/>
+						<input type="text" class="form-control" id="personne" placeholder="Entrer la personne en charge" /> <br/>
+			        </div>
+			        <div class="modal-footer">
+			          	<button type="button" class="btn btn-success" id="saveSupprime" data-dismiss="modal">Enregistrer</button>
+			         	<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+			        </div>
+			      </div>
+			    </div>
+			  </div>		
 			<script src="js/ajax.js"></script>
 			
 	</div><!-- /.container -->

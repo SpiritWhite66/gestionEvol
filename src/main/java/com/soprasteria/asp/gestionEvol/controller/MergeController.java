@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.soprasteria.asp.gestionEvol.model.Merge;
-import com.soprasteria.asp.gestionEvol.model.RenommeBranche;
-import com.soprasteria.asp.gestionEvol.model.SupprimeBranche;
+import com.soprasteria.asp.gestionEvol.model.ActionMerge;
+import com.soprasteria.asp.gestionEvol.model.ActionRenommeBranche;
+import com.soprasteria.asp.gestionEvol.model.ActionSupprimeBranche;
 import com.soprasteria.asp.gestionEvol.service.ServiceGererBranche;
 
 @Controller
@@ -25,7 +25,7 @@ public class MergeController {
 	ServiceGererBranche brancheService;
 	
 	@RequestMapping(value = "/saveMergeLine", method = RequestMethod.POST)
-	public @ResponseBody int saveMergeLine(@ModelAttribute(value = "myMerge") final Merge merge) {
+	public @ResponseBody int saveMergeLine(@ModelAttribute(value = "myMerge") final ActionMerge merge) {
 		return brancheService.save(merge).getId();
 	}
 	
@@ -35,7 +35,7 @@ public class MergeController {
 	}
 	
 	@RequestMapping(value = "/getAllMerge")
-	public @ResponseBody ArrayList<Merge> allMerge(@RequestParam(value="all", required=false) boolean all) {
+	public @ResponseBody ArrayList<ActionMerge> allMerge(@RequestParam(value="all", required=false) boolean all) {
 		return brancheService.findAllMergeOrderByDateDesc(all);
 	}
 
@@ -55,11 +55,11 @@ public class MergeController {
 		return "ListRenommer";
 	}
 	@RequestMapping(value = "/GetAllRenommeBranche")
-	public @ResponseBody ArrayList<RenommeBranche> getAllRenommeBranche(@RequestParam(value="all", required=false) boolean all) {
+	public @ResponseBody ArrayList<ActionRenommeBranche> getAllRenommeBranche(@RequestParam(value="all", required=false) boolean all) {
 		return brancheService.findAllRenommeOrderByDateDesc();
 	}
 	@RequestMapping(value = "/SaveRenommeBrancheLine")
-	public @ResponseBody int saveRenommeBrancheLine(@ModelAttribute(value = "myRenommeBranche") final RenommeBranche renommeBranche) {
+	public @ResponseBody int saveRenommeBrancheLine(@ModelAttribute(value = "myRenommeBranche") final ActionRenommeBranche renommeBranche) {
 		return brancheService.save(renommeBranche).getId();
 	}
 	
@@ -69,12 +69,12 @@ public class MergeController {
 	}
 	
 	@RequestMapping(value = "/GetAllSupprimeBranche")
-	public @ResponseBody ArrayList<SupprimeBranche> getAllSupprimeBranche(@RequestParam(value="all", required=false) boolean all) {
+	public @ResponseBody ArrayList<ActionSupprimeBranche> getAllSupprimeBranche(@RequestParam(value="all", required=false) boolean all) {
 		return brancheService.findAllSupprimeOrderByDateDesc();
 	}
 	
 	@RequestMapping(value = "/SaveSupprimeBrancheLine")
-	public @ResponseBody int saveSupprimeBrancheLine(@ModelAttribute(value = "mySupprimeBranche") final SupprimeBranche supprimeBranche) {
+	public @ResponseBody int saveSupprimeBrancheLine(@ModelAttribute(value = "mySupprimeBranche") final ActionSupprimeBranche supprimeBranche) {
 		return brancheService.save(supprimeBranche).getId();
 	}
 	

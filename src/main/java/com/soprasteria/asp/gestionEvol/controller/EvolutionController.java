@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.soprasteria.asp.gestionEvol.model.Evolution;
-import com.soprasteria.asp.gestionEvol.model.Merge;
+import com.soprasteria.asp.gestionEvol.model.ActionMerge;
 import com.soprasteria.asp.gestionEvol.model.exceptions.ErrorException;
 import com.soprasteria.asp.gestionEvol.repository.ErrorDao;
 import com.soprasteria.asp.gestionEvol.service.ServiceGererEvolution;

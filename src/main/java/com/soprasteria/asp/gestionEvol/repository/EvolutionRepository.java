@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.soprasteria.asp.gestionEvol.model.Evolution;
-import com.soprasteria.asp.gestionEvol.model.Merge;
+import com.soprasteria.asp.gestionEvol.model.ActionMerge;
 
 @Transactional
 @Repository

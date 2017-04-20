@@ -5,7 +5,7 @@
 
 	<groupId>com.test</groupId>
 	<artifactId>gestionEvol</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

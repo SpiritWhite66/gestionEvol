@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,8 +24,10 @@ import com.soprasteria.asp.gestionEvol.model.Appli;
 import com.soprasteria.asp.gestionEvol.model.Branche;
 import com.soprasteria.asp.gestionEvol.model.Evol;
 import com.soprasteria.asp.gestionEvol.model.PropertySession;
+import com.soprasteria.asp.gestionEvol.model.ReponseEvolution;
 import com.soprasteria.asp.gestionEvol.repository.EvolDao;
 import com.soprasteria.asp.gestionEvol.service.ParseurEntreePython;
+import com.soprasteria.asp.gestionEvol.service.PrepareResponse;
 import com.soprasteria.asp.gestionEvol.service.TriSVN;
 import com.soprasteria.asp.gestionEvol.service.impl.ParseurEntreePythonImpl;
 
@@ -43,11 +44,14 @@ public class HomeController {
 	@Autowired
 	private EvolDao serviceevol;	
 	
+	@Autowired
+	private PrepareResponse convertisseur;
+	
 	@ModelAttribute("propertybean")
     public PropertySession addAttributes() {
 		PropertySession property = new PropertySession();
 		property.setTri(false);
-		property.setFileJSON("");
+		property.setFileJSON("Osiris_wrk.json");
 		return property;
     }
 	
@@ -56,7 +60,7 @@ public class HomeController {
 		if(sessionObj==null)
 		{
 			LOGGER.debug("position dans afficheListEvol sessionObj null =>"+sessionObj);
-			sessionObj = new PropertySession(false, null);
+			sessionObj = new PropertySession(false, "Repo/Osiris_wrk.json");
 			model.addAttribute("propertybean", sessionObj);
 		}
 		String chemin = sessionObj.getFileJSON();
@@ -127,13 +131,15 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/getBrancheByAppli" ,method=RequestMethod.GET)
-    public @ResponseBody ArrayList<Branche> getBrancheByAppli(HttpSession session, ModelMap model, @RequestParam(value="nameEvol", required=true) String nameEvol, @RequestParam(value="nameAppli", required=true) String nameAppli) 
+    public @ResponseBody ReponseEvolution getBrancheByAppli(HttpSession session, ModelMap model, @RequestParam(value="nameEvol", required=true) String nameEvol, @RequestParam(value="nameAppli", required=true) String nameAppli) 
     {
 		PropertySession sessionObj = (PropertySession)session.getAttribute("propertybean");
 		readDataSearch(sessionObj, model);
 		Evol evol = serviceevol.find(nameEvol);
-		return serviceevol.findBrancheByApplication(evol, nameAppli);
+		return convertisseur.prepareReponseEvolution(serviceevol.findBrancheByApplication(evol, nameAppli));
 	}
+	
+	
 	
 	@RequestMapping(value="/getAllFile")
 	public @ResponseBody ArrayList<String> getAllFile(HttpSession session)
@@ -156,8 +162,6 @@ public class HomeController {
 	public @ResponseBody void setFile(HttpSession session, @RequestParam(value="nameFile", required=true) String nameFile)
 	{
 		PropertySession sessionObj = (PropertySession)session.getAttribute("propertybean");
-		System.out.println(sessionObj);
-		System.out.println(nameFile);
 		sessionObj.setFileJSON("Repo/"+nameFile);
 	}
 	@ResponseStatus(HttpStatus.NOT_FOUND)

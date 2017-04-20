@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="branche_supprime")
-public class SupprimeBranche extends AbstractModelAction{
+public class ActionSupprimeBranche extends AbstractActionModel{
 	
 //	@Id
 //	@GeneratedValue (strategy = GenerationType.IDENTITY)

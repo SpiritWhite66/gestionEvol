@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="merge")
-public class Merge extends AbstractModelAction {
+public class ActionMerge extends AbstractActionModel {
 	@NotNull
 	@Column(length = 300,columnDefinition="_varchar")
 	private String version1;
@@ -24,10 +24,10 @@ public class Merge extends AbstractModelAction {
 	
 	private String commentaire;
 	
-	public Merge() {
+	public ActionMerge() {
 	}
 	
-	public Merge(String version1, String version2, boolean fait, String personne, Date date, String commentaire) {
+	public ActionMerge(String version1, String version2, boolean fait, String personne, Date date, String commentaire) {
 		this.fait = fait;
 		this.version1 = version1;
 		this.version2 = version2;

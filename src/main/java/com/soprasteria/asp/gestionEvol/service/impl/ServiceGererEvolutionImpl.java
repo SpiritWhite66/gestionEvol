@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.soprasteria.asp.gestionEvol.model.Evolution;
 import com.soprasteria.asp.gestionEvol.model.Historique;
-import com.soprasteria.asp.gestionEvol.model.Merge;
+import com.soprasteria.asp.gestionEvol.model.ActionMerge;
 import com.soprasteria.asp.gestionEvol.model.TypeAction;
 import com.soprasteria.asp.gestionEvol.repository.EvolutionRepository;
 import com.soprasteria.asp.gestionEvol.repository.HistoriqueRepository;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.soprasteria.asp.gestionEvol.model.Evolution;
 import com.soprasteria.asp.gestionEvol.model.Historique;
-import com.soprasteria.asp.gestionEvol.model.Merge;
+import com.soprasteria.asp.gestionEvol.model.ActionMerge;
 
 public interface ServiceGererEvolution {
 

@@ -7,16 +7,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.soprasteria.asp.gestionEvol.model.Merge;
+import com.soprasteria.asp.gestionEvol.model.ActionMerge;
 
 @Transactional
 @Repository
-public interface MergeRepository extends JpaRepository<Merge, Long>{
+public interface MergeRepository extends JpaRepository<ActionMerge, Long>{
 
-	Merge saveAndFlush(Merge merge);
-	Merge findById(int id);
-	ArrayList<Merge> findAllByOrderByDateDesc();
-	ArrayList<Merge> findAllByFaitOrderByDateDesc(Boolean all);
+	ActionMerge saveAndFlush(ActionMerge merge);
+	ActionMerge findById(int id);
+	ArrayList<ActionMerge> findAllByOrderByDateDesc();
+	ArrayList<ActionMerge> findAllByFaitOrderByDateDesc(Boolean all);
 
 	
 	/**
@@ -27,6 +27,6 @@ public interface MergeRepository extends JpaRepository<Merge, Long>{
 	 * retourne le merge modifié
 	 **/
 	@Modifying
-	@Query("UPDATE Merge SET fait = ?2 where id = ?1")
+	@Query("UPDATE ActionMerge SET fait = ?2 where id = ?1")
 	int setFaitForMerge(int id, boolean fait);
 }

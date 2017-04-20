@@ -47,7 +47,6 @@ public class Historique {
 		this.qui = personne;
 		this.date = date;
 	}
-
 	
 	public char getType_objet() {
 		return type_objet;

@@ -7,15 +7,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import com.soprasteria.asp.gestionEvol.model.Merge;
-import com.soprasteria.asp.gestionEvol.model.RenommeBranche;
+import com.soprasteria.asp.gestionEvol.model.ActionMerge;
+import com.soprasteria.asp.gestionEvol.model.ActionRenommeBranche;
 
 @Transactional
 @Repository
-public interface RenommeBrancheRepository extends JpaRepository<RenommeBranche, Long>{
+public interface RenommeBrancheRepository extends JpaRepository<ActionRenommeBranche, Long>{
 
-	RenommeBranche findById(int id);
-	ArrayList<RenommeBranche> findAllByOrderByDateDesc();
+	ActionRenommeBranche findById(int id);
+	ArrayList<ActionRenommeBranche> findAllByOrderByDateDesc();
 	
 	/**
 	 * Met à jour le boolean "fait" du merge n° "id".
@@ -25,6 +25,11 @@ public interface RenommeBrancheRepository extends JpaRepository<RenommeBranche, 
 	 * retourne le merge modifié
 	 **/
 	@Modifying
-	@Query("UPDATE RenommeBranche SET fait = ?2 where id = ?1")
-	int setFaitForMerge(int id, boolean fait);
+	@Query("UPDATE ActionRenommeBranche SET fait = ?2 where id = ?1")
+	int setFaitForRenomme(int id, boolean fait);
+	
+	@Modifying
+	@Query("SELECT rb FROM ActionRenommeBranche rb WHERE  rb.src IN ?1")
+	ArrayList<ActionRenommeBranche> findByListBranche(ArrayList<String> name);
+	
 }

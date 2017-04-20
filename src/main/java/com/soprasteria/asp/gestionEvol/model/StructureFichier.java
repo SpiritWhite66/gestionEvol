@@ -8,12 +8,23 @@ public class StructureFichier {
 	
 	private ArrayList<Evol> listEvol;
 	private ArrayList<ErrorException> listError;
+	private ArrayList<PatchBDD> listPatchBDD;
 	
 	public StructureFichier() {
 		listError = new ArrayList<>();
 		listEvol = new ArrayList<>();
+		listPatchBDD = new ArrayList<>();
 	}
 	
+	
+	public ArrayList<PatchBDD> getListPatchBDD() {
+		return listPatchBDD;
+	}
+
+	public void setListPatchBDD(ArrayList<PatchBDD> listPatchBDD) {
+		this.listPatchBDD = listPatchBDD;
+	}
+
 	public ArrayList<Evol> getListEvol() {
 		return listEvol;
 	}

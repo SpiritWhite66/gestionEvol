@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="branche_renomme")
-public class RenommeBranche extends AbstractModelAction {
+public class ActionRenommeBranche extends AbstractActionModel {
 	
 	  
 	@NotNull
